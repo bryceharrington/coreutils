@@ -26,4 +26,9 @@ file system containing the device node.  This version of
 cannot show the space available on unmounted file systems, because on
 most kinds of systems doing so requires very nonportable intimate
 knowledge of file system structures.
+[ENVIRONMENT]
+.PP
+DF_EXCLUDE_FSTYPES defines file system types to exclude in the default
+listing.  For example, this might be used to ignore non-consumable
+filesystem types like tmpfs.
 .SH OPTIONS

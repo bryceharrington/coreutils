@@ -11733,6 +11733,12 @@ if there is another mount entry of a real block device for that mount point with
 the same device number, e.g. the early-boot pseudo file system @samp{rootfs} is
 not shown per default when already the real root device has been mounted.
 
+The environment variable ‘DF_EXCLUDE_FSTYPES’ can be used to define
+additional file system types to exclude in the default listing.  For
+example, this might be used to ignore non-consumable filesystem types
+like @samp{tmpfs}.  The @option{-a} and @option{-t} options supersede
+the environment variable's settings.
+
 @cindex disk device file
 @cindex device file, disk
 If an argument @var{file} resolves to a special file containing
@@ -11938,8 +11944,9 @@ By default, nothing is omitted.
 @opindex --print-type
 @cindex file system types, printing
 Print each file system's type.  The types printed here are the same ones
-you can include or exclude with @option{-t} and @option{-x}.  The particular
-types printed are whatever is supported by the system.  Here are some of
+you can include or exclude with @option{-t}, @option{-x}, and the
+environment variable ‘DF_EXCLUDE_FSTYPES’.  The particular types
+printed are whatever is supported by the system.  Here are some of
 the common names (this list is certainly not exhaustive):
 
 @table @samp
@@ -11987,7 +11994,9 @@ File systems used by MS-Windows / MS-DOS.
 @opindex --exclude-type
 Limit the listing to file systems not of type @var{fstype}.
 Multiple file system types can be eliminated by giving multiple
-@option{-x} options.  By default, no file system types are omitted.
+@option{-x} options.  The environment variable ‘DF_EXCLUDE_FSTYPES’
+can also be used to specify additional types to exclude. By default,
+all non-pseudo file system types are displayed.
 
 @item -v
 Ignored; for compatibility with System V versions of @command{df}.

@@ -1501,6 +1501,41 @@ add_excluded_fs_type (const char *fstype)
   fs_exclude_list = fsp;
 }
 
+/* Given a string, ARG, containing a comma-separated list of
+   file system types, add to the fs type exclusion list unless
+   it has been explicitly selected.  */
+
+static void
+decode_exclude_arg (char const *arg)
+{
+  char *arg_writable;
+  char *s;
+
+  if (!arg)
+    return;
+
+  arg_writable = xstrdup (arg);
+  s = arg_writable;
+  do
+    {
+      /* Find next comma.  */
+      char *comma = strchr (s, ',');
+
+      /* If we found a comma, put a NUL in its place and advance.  */
+      if (comma)
+        *comma++ = 0;
+
+      /* Skip intentionally selected file system types, else exclude.  */
+      if (!fs_select_list || !selected_fstype (s))
+	add_excluded_fs_type (xstrdup (s));
+
+      s = comma;
+    }
+  while (s);
+
+  free (arg_writable);
+}
+
 void
 usage (int status)
 {
@@ -1750,6 +1785,10 @@ main (int argc, char **argv)
     if (match)
       return EXIT_FAILURE;
   }
+
+  /* Exclude filesystems per environment setting.  */
+  if (!show_all_fs)
+    decode_exclude_arg (getenv ("DF_EXCLUDE_FSTYPES"));
 
   assume (0 < optind);
 

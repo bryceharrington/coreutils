@@ -19,6 +19,10 @@ GNU coreutils NEWS                                    -*- outline -*-
   directory merely because it was removed.  This reverts a change
   that was made in release 8.32.
 
+  df now supports a DF_EXCLUDE_FSTYPES environment variable for
+  specifying file system types to exclude from the default view,
+  similar to the -x option.
+
 ** New Features
 
    ls --classify now supports the "always", "auto", or "never" flags,
